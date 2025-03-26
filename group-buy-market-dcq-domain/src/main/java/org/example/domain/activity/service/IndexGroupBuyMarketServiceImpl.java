@@ -4,9 +4,11 @@ import org.example.domain.activity.model.entity.MarketProductEntity;
 import org.example.domain.activity.model.entity.TrialBalanceEntity;
 import org.example.domain.activity.service.trial.factory.DefaultActivityStrategyFactory;
 import org.example.types.design.framework.tree.StrategyHandler;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
+@Service
 public class IndexGroupBuyMarketServiceImpl implements IndexGroupBuyMarketService {
 
     @Resource
