@@ -32,6 +32,9 @@ public class MarketNode extends AbstractGroupBuyMarketSupport<MarketProductEntit
     private EndNode endNode;
 
     @Resource
+    private TagNode tagNode;
+
+    @Resource
     private ErrorNode errorNode;
 
     @Resource
@@ -86,6 +89,6 @@ public class MarketNode extends AbstractGroupBuyMarketSupport<MarketProductEntit
             return errorNode;
         }
 
-        return endNode;
+        return tagNode;
     }
 }
