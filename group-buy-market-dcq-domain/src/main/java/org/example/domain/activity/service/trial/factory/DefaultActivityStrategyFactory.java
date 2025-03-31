@@ -12,6 +12,8 @@ import org.example.domain.activity.service.trial.node.RootNode;
 import org.example.types.design.framework.tree.StrategyHandler;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
 @Service
 public class DefaultActivityStrategyFactory {
 
@@ -33,6 +35,7 @@ public class DefaultActivityStrategyFactory {
     public static class DynamicContext {
         private GroupBuyActivityDiscountVO groupBuyActivityDiscountVO;
         private SkuVO skuVO;
+        private BigDecimal deductionPrice;
     }
 
 }
