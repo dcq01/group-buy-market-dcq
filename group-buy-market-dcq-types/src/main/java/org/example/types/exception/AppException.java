@@ -2,6 +2,7 @@ package org.example.types.exception;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.example.types.enums.ResponseCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -9,14 +10,23 @@ public class AppException extends RuntimeException {
 
     private static final long serialVersionUID = 5317680961212299217L;
 
-    /** 异常码 */
+    /**
+     * 异常码
+     */
     private String code;
 
-    /** 异常信息 */
+    /**
+     * 异常信息
+     */
     private String info;
 
     public AppException(String code) {
         this.code = code;
+    }
+
+    public AppException(ResponseCode responseCode) {
+        this.code = responseCode.getCode();
+        this.info = responseCode.getInfo();
     }
 
     public AppException(String code, Throwable cause) {
