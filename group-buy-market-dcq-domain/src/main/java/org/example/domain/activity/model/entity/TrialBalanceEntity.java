@@ -19,6 +19,7 @@ public class TrialBalanceEntity {
     private String goodsName;
     private BigDecimal originalPrice;
     private BigDecimal deductionPrice;
+    private BigDecimal payPrice;
     private Integer targetCount;
     private Date startTime;
     private Date endTime;

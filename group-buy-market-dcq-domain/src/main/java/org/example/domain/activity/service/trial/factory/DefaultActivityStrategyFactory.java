@@ -36,6 +36,7 @@ public class DefaultActivityStrategyFactory {
         private GroupBuyActivityDiscountVO groupBuyActivityDiscountVO;
         private SkuVO skuVO;
         private BigDecimal deductionPrice;
+        private BigDecimal payPrice;
 
         private boolean visible;
         private boolean enable;
