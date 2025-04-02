@@ -16,7 +16,7 @@ import org.example.domain.trade.model.entity.PayActivityEntity;
 import org.example.domain.trade.model.entity.PayDiscountEntity;
 import org.example.domain.trade.model.entity.UserEntity;
 import org.example.domain.trade.model.valobj.GroupBuyProgressVO;
-import org.example.domain.trade.service.ITradeOrderService;
+import org.example.domain.trade.service.ITradeLockOrderService;
 import org.example.types.enums.ResponseCode;
 import org.example.types.exception.AppException;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +34,7 @@ public class MarketTradeController implements IMarketTradeService {
     private IndexGroupBuyMarketService indexGroupBuyMarketService;
 
     @Resource
-    private ITradeOrderService tradeOrderService;
+    private ITradeLockOrderService tradeOrderService;
 
 
     @RequestMapping(value = "lock_market_pay_order", method = RequestMethod.POST)
