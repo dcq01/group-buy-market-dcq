@@ -5,5 +5,5 @@ import org.example.domain.trade.model.entity.TradePaySuccessEntity;
 
 public interface ITradeSettlementOrderService {
 
-    TradePaySettlementEntity settlementMarketPayOrder(TradePaySuccessEntity tradePaySuccessEntity);
+    TradePaySettlementEntity settlementMarketPayOrder(TradePaySuccessEntity tradePaySuccessEntity) throws Exception;
 }

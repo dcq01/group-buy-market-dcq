@@ -11,14 +11,12 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TradePaySuccessEntity {
+public class TradeSettlementRuleCommandEntity {
 
     private String source;
     private String channel;
     private String userId;
     private String outTradeNo;
     private Date outTradeTime;
-
-
 
 }
