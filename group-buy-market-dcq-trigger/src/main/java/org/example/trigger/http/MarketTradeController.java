@@ -6,17 +6,17 @@ import org.apache.commons.lang3.StringUtils;
 import org.example.api.IMarketTradeService;
 import org.example.api.dto.LockMarketPayOrderRequestDTO;
 import org.example.api.dto.LockMarketPayOrderResponseDTO;
+import org.example.api.dto.SettlementMarketPayOrderRequestDTO;
+import org.example.api.dto.SettlementMarketPayOrderResponseDTO;
 import org.example.api.response.Response;
 import org.example.domain.activity.model.entity.MarketProductEntity;
 import org.example.domain.activity.model.entity.TrialBalanceEntity;
 import org.example.domain.activity.model.valobj.GroupBuyActivityDiscountVO;
 import org.example.domain.activity.service.IndexGroupBuyMarketService;
-import org.example.domain.trade.model.entity.MarketPayOrderEntity;
-import org.example.domain.trade.model.entity.PayActivityEntity;
-import org.example.domain.trade.model.entity.PayDiscountEntity;
-import org.example.domain.trade.model.entity.UserEntity;
+import org.example.domain.trade.model.entity.*;
 import org.example.domain.trade.model.valobj.GroupBuyProgressVO;
 import org.example.domain.trade.service.ITradeLockOrderService;
+import org.example.domain.trade.service.ITradeSettlementOrderService;
 import org.example.types.enums.ResponseCode;
 import org.example.types.exception.AppException;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +35,9 @@ public class MarketTradeController implements IMarketTradeService {
 
     @Resource
     private ITradeLockOrderService tradeOrderService;
+
+    @Resource
+    private ITradeSettlementOrderService tradeSettlementOrderService;
 
 
     @RequestMapping(value = "lock_market_pay_order", method = RequestMethod.POST)
@@ -153,5 +156,61 @@ public class MarketTradeController implements IMarketTradeService {
                     .info(ResponseCode.UN_ERROR.getInfo())
                     .build();
         }
+    }
+
+    @Override
+    public Response<SettlementMarketPayOrderResponseDTO> settlementMarketPayOrder(SettlementMarketPayOrderRequestDTO settlementMarketPayOrderRequestDTO) {
+        try {
+            log.info("营销交易组队结算开始:{} outTradeNo:{}", settlementMarketPayOrderRequestDTO.getUserId(), settlementMarketPayOrderRequestDTO.getOutTradeNo());
+            if (StringUtils.isBlank(settlementMarketPayOrderRequestDTO.getUserId()) || StringUtils.isBlank(settlementMarketPayOrderRequestDTO.getSource())
+                    || StringUtils.isBlank(settlementMarketPayOrderRequestDTO.getChannel())
+                    || StringUtils.isBlank(settlementMarketPayOrderRequestDTO.getOutTradeNo())
+                    || null == settlementMarketPayOrderRequestDTO.getOutTradeTime()) {
+                return Response.<SettlementMarketPayOrderResponseDTO>builder()
+                        .code(ResponseCode.ILLEGAL_PARAMETER.getCode())
+                        .info(ResponseCode.ILLEGAL_PARAMETER.getInfo())
+                        .build();
+            }
+            // 1. 结算服务
+            TradePaySettlementEntity tradePaySettlementEntity = tradeSettlementOrderService.settlementMarketPayOrder(TradePaySuccessEntity.builder()
+                    .source(settlementMarketPayOrderRequestDTO.getSource())
+                    .channel(settlementMarketPayOrderRequestDTO.getChannel())
+                    .userId(settlementMarketPayOrderRequestDTO.getUserId())
+                    .outTradeNo(settlementMarketPayOrderRequestDTO.getOutTradeNo())
+                    .outTradeTime(settlementMarketPayOrderRequestDTO.getOutTradeTime())
+                    .build());
+
+            SettlementMarketPayOrderResponseDTO responseDTO = SettlementMarketPayOrderResponseDTO.builder()
+                    .userId(tradePaySettlementEntity.getUserId())
+                    .teamId(tradePaySettlementEntity.getTeamId())
+                    .activityId(tradePaySettlementEntity.getActivityId())
+                    .outTradeNo(tradePaySettlementEntity.getOutTradeNo())
+                    .build();
+
+            // 返回结果
+            Response<SettlementMarketPayOrderResponseDTO> response = Response.<SettlementMarketPayOrderResponseDTO>builder()
+                    .code(ResponseCode.SUCCESS.getCode())
+                    .info(ResponseCode.SUCCESS.getInfo())
+                    .data(responseDTO)
+                    .build();
+
+            log.info("营销交易组队结算完成:{} outTradeNo:{} response:{}", settlementMarketPayOrderRequestDTO.getUserId(), settlementMarketPayOrderRequestDTO.getOutTradeNo(), JSON.toJSONString(response));
+
+            return response;
+        } catch (AppException e) {
+            log.error("营销交易组队结算异常:{} LockMarketPayOrderRequestDTO:{}", settlementMarketPayOrderRequestDTO.getUserId(), JSON.toJSONString(settlementMarketPayOrderRequestDTO), e);
+            return Response.<SettlementMarketPayOrderResponseDTO>builder()
+                    .code(e.getCode())
+                    .info(e.getInfo())
+                    .build();
+        } catch (Exception e) {
+            log.error("营销交易组队结算失败:{} LockMarketPayOrderRequestDTO:{}", settlementMarketPayOrderRequestDTO.getUserId(), JSON.toJSONString(settlementMarketPayOrderRequestDTO), e);
+            return Response.<SettlementMarketPayOrderResponseDTO>builder()
+                    .code(ResponseCode.UN_ERROR.getCode())
+                    .info(ResponseCode.UN_ERROR.getInfo())
+                    .build();
+        }
+
+
     }
 }
