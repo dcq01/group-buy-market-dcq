@@ -55,8 +55,14 @@ public class MarketIndexController implements IMarketIndexService {
             GroupBuyActivityDiscountVO groupBuyActivityDiscountVO = trialBalanceEntity.getGroupBuyActivityDiscountVO();
             Long activityId = groupBuyActivityDiscountVO.getActivityId();
 
+            System.out.println("--------------------------------------");
+            System.out.println(activityId);
+            System.out.println(goodsMarketRequestDTO.getUserId());
+
             // 2. 查询拼团组队
             List<UserGroupBuyOrderDetailEntity> userGroupBuyOrderDetailEntities = indexGroupBuyMarketService.queryInProgressUserGroupBuyOrderDetailList(activityId, goodsMarketRequestDTO.getUserId(), 1, 2);
+
+            System.out.println(userGroupBuyOrderDetailEntities);
 
             // 3. 统计拼团数据
             TeamStatisticVO teamStatisticVO = indexGroupBuyMarketService.queryTeamStatisticByActivityId(activityId);

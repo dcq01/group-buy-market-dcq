@@ -132,6 +132,8 @@ public class ActivityRepository implements IActivityRepository {
         groupBuyOrderListReq.setUserId(userId);
         groupBuyOrderListReq.setCount(ownerCount);
         List<GroupBuyOrderList> groupBuyOrderLists = groupBuyOrderListDao.queryInProgressUserGroupBuyOrderDetailListByUserId(groupBuyOrderListReq);
+
+
         if (null == groupBuyOrderLists || groupBuyOrderLists.isEmpty()) return null;
 
         Set<String> teamIds = groupBuyOrderLists.stream()
@@ -140,6 +142,10 @@ public class ActivityRepository implements IActivityRepository {
                 .collect(Collectors.toSet());
 
         List<GroupBuyOrder> groupBuyOrders = groupBuyOrderDao.queryGroupBuyProgressByTeamIds(teamIds);
+
+        System.out.println("--------------------------------------");
+        System.out.println(groupBuyOrders);
+
         if (null == groupBuyOrders || groupBuyOrders.isEmpty()) return null;
 
         Map<String, GroupBuyOrder> groupBuyOrderMap = groupBuyOrders.stream()
@@ -153,15 +159,16 @@ public class ActivityRepository implements IActivityRepository {
 
             UserGroupBuyOrderDetailEntity userGroupBuyOrderDetailEntity = UserGroupBuyOrderDetailEntity.builder()
                     .userId(groupBuyOrderList.getUserId())
-                    .teamId(groupBuyOrderList.getTeamId())
-                    .activityId(groupBuyOrderList.getActivityId())
-                    .targetCount(groupBuyOrderList.getCount())
-                    .completeCount(groupBuyOrderList.getCount())
-                    .lockCount(groupBuyOrderList.getCount())
-                    .validStartTime(groupBuyOrderList.getStartTime())
-                    .validEndTime(groupBuyOrderList.getEndTime())
+                    .teamId(groupBuyOrder.getTeamId())
+                    .activityId(groupBuyOrder.getActivityId())
+                    .targetCount(groupBuyOrder.getTargetCount())
+                    .completeCount(groupBuyOrder.getCompleteCount())
+                    .lockCount(groupBuyOrder.getLockCount())
+                    .validStartTime(groupBuyOrder.getValidStartTime())
+                    .validEndTime(groupBuyOrder.getValidEndTime())
                     .outTradeNo(groupBuyOrderList.getOutTradeNo())
                     .build();
+
 
             userGroupBuyOrderDetailEntities.add(userGroupBuyOrderDetailEntity);
         }

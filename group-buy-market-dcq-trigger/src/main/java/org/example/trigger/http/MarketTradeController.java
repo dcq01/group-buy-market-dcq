@@ -158,9 +158,12 @@ public class MarketTradeController implements IMarketTradeService {
         }
     }
 
+    @RequestMapping(value = "settlement_market_pay_order", method = RequestMethod.POST)
     @Override
-    public Response<SettlementMarketPayOrderResponseDTO> settlementMarketPayOrder(SettlementMarketPayOrderRequestDTO settlementMarketPayOrderRequestDTO) {
+    public Response<SettlementMarketPayOrderResponseDTO> settlementMarketPayOrder(@RequestBody SettlementMarketPayOrderRequestDTO settlementMarketPayOrderRequestDTO) {
         try {
+            System.out.println("1111111111111111111111111111111");
+
             log.info("营销交易组队结算开始:{} outTradeNo:{}", settlementMarketPayOrderRequestDTO.getUserId(), settlementMarketPayOrderRequestDTO.getOutTradeNo());
             if (StringUtils.isBlank(settlementMarketPayOrderRequestDTO.getUserId()) || StringUtils.isBlank(settlementMarketPayOrderRequestDTO.getSource())
                     || StringUtils.isBlank(settlementMarketPayOrderRequestDTO.getChannel())
@@ -171,6 +174,7 @@ public class MarketTradeController implements IMarketTradeService {
                         .info(ResponseCode.ILLEGAL_PARAMETER.getInfo())
                         .build();
             }
+            System.out.println("2222222222222222222222222222222");
             // 1. 结算服务
             TradePaySettlementEntity tradePaySettlementEntity = tradeSettlementOrderService.settlementMarketPayOrder(TradePaySuccessEntity.builder()
                     .source(settlementMarketPayOrderRequestDTO.getSource())

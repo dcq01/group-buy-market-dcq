@@ -83,7 +83,7 @@ public class GoodsMarketResponseDTO {
                 return "无效的时间";
             }
 
-            long diffInMilliseconds = validEndTime.getTime() - validEndTime.getTime();
+            long diffInMilliseconds = validEndTime.getTime() - validStartTime.getTime();
 
             if (diffInMilliseconds < 0) {
                 return "已结束";
