@@ -44,7 +44,7 @@ LOCK TABLES `crowd_tags` WRITE;
 
 INSERT INTO `crowd_tags` (`id`, `tag_id`, `tag_name`, `tag_desc`, `statistics`, `create_time`, `update_time`)
 VALUES
-	(1,'RQ_KJHKL98UU78H66554GFDV','潜在消费用户','潜在消费用户',33,'2024-12-28 12:53:28','2025-01-28 08:23:57');
+	(1,'RQ_KJHKL98UU78H66554GFDV','潜在消费用户','潜在消费用户',33,'2024-12-28 12:53:28','2099-01-28 08:23:57');
 
 /*!40000 ALTER TABLE `crowd_tags` ENABLE KEYS */;
 UNLOCK TABLES;
