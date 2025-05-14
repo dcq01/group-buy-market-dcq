@@ -66,6 +66,8 @@ public class GroupBuyOrderList extends Page {
      * 折扣金额
      */
     private BigDecimal deductionPrice;
+
+    private BigDecimal payPrice;
     /**
      * 状态；0初始锁定、1消费完成
      */
